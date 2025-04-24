@@ -1,0 +1,37 @@
+# azure-pipelines.yaml
+trigger:
+  branches:
+    include:
+      - main
+
+parameters:
+  - name: upgradeDate
+    displayName: "Scheduled Upgrade Date (UTC)"
+    type: string
+
+pool:
+  name: 'az-pool-set1'
+
+variables:
+  CLUSTER_NAME: "<your-cluster-name>"
+  RESOURCE_GROUP: "<your-resource-group>"
+  ARO_KUBECONFIG: "kubeconfig"
+
+steps:
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: '<your-azure-devops-service-connection>'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        az aro list-credentials --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP \
+          --query kubeadminPassword -o tsv > kubeadmin-password.txt
+
+        API_SERVER=$(az aro show -n $CLUSTER_NAME -g $RESOURCE_GROUP --query apiserverProfile.url -o tsv)
+
+        echo "Connecting to OpenShift cluster..."
+        oc login $API_SERVER -u kubeadmin -p $(cat kubeadmin-password.txt) --insecure-skip-tls-verify=true
+
+        echo "Running patch scheduling script..."
+        pwsh ./scripts/schedule-aro-patch.ps1 -ScheduledDate '${{ parameters.upgradeDate }}'
+    displayName: 'Login to ARO and Schedule Patch'
