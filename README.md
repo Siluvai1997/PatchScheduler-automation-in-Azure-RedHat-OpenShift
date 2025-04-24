@@ -25,6 +25,6 @@ parameters:
     default: "2024-05-01T23:00:00Z"
 ```
 ## Sample Output 
-Current cluster version: 4.16.31
-Latest available patch version: 4.16.37
-Upgrade config created successfully. Patch scheduled for 2024-05-01T23:00:00Z
+- Current cluster version: 4.16.31
+- Latest available patch version: 4.16.37
+- Upgrade config created successfully. Patch scheduled for 2024-05-01T23:00:00Z
