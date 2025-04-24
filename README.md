@@ -23,7 +23,7 @@ parameters:
   - name: upgradeDate
     type: string
     default: "2024-05-01T23:00:00Z"
-
+```
 ## Sample Output 
 Current cluster version: 4.16.31
 Latest available patch version: 4.16.37
