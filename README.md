@@ -1,4 +1,4 @@
-## Azure RedHat OpenShift Patch Scheduler using PowerShell & Azure DevOps
+## Azure RedHat OpenShift Cluster Upgrade Scheduler using PowerShell & Azure DevOps
 This repository enables automated patch scheduling in Azure Red Hat OpenShift (ARO) clusters using Argo CD's Managed Upgrade Operator.
 
 ### Features
